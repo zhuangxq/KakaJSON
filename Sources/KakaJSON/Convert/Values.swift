@@ -212,8 +212,14 @@ private extension Values {
         guard let str = _numberString(value) else { return nil }
         guard let decimal = Decimal(string: str) else { return nil }
         
+        // IntType
+        if let intType = type as? IntegerValue.Type {
+			return Int("\(decimal)")
+				.flatMap { NSNumber(value: $0) }
+				.flatMap { intType.init(truncating: $0) }
+		}		
         // digit
-        if let digitType = type as? DigitValue.Type {
+        else if let digitType = type as? DigitValue.Type {
             return Double("\(decimal)")
                 .flatMap { NSNumber(value: $0) }
                 .flatMap { digitType.init(truncating: $0) }
