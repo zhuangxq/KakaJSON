@@ -293,20 +293,7 @@ extension Convertible {
         }
         
         if let json = jsonValue as? [String: Any] {
-            if let jsonDict = jsonValue as? [String: [String: Any]?] {
-                var modelDict = [String: Any]()
-                for (k, v) in jsonDict {
-                    guard let m = v?.kj.model(type: modelType) else { continue }
-                    modelDict[k] = m
-                }
-                guard modelDict.count > 0 else { return jsonValue }
-                
-                return propertyType is NSMutableDictionary.Type
-                    ? NSMutableDictionary(dictionary: modelDict)
-                    : modelDict
-            } else {
-                return json.kj.model(type: modelType)
-            }
+			return json.kj.model(type: modelType)
         }
         return jsonValue
     }
